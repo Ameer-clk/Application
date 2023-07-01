@@ -1,0 +1,17 @@
+# Use an appropriate base image
+FROM nginx:latest
+
+# Remove the default Nginx configuration
+RUN rm /etc/nginx/conf.d/default.conf
+
+# Copy the custom Nginx configuration
+COPY nginx.conf /etc/nginx/conf.d/myapp.conf
+
+# Copy the web application code to the container
+COPY app /usr/share/nginx/html
+
+# Expose the necessary port(s)
+EXPOSE 80
+
+# Start Nginx
+CMD ["nginx", "-g", "daemon off;"]
