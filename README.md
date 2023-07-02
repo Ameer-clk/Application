@@ -1,5 +1,5 @@
-Application-DevOps
+Application-DevOps 
 
-# Create a full Aws Infrastructure using Terraform and Cloud Formation 
+Create Aws Infrastructure using Terraform and Cloud Formation 
 
-#Deploy Web Applications using Docker and Kubernetes
+Deploy Web Applications using Docker and Kubernetes 
