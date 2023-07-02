@@ -26,6 +26,9 @@ install_minikube_ubuntu() {
     sudo tar -C / -xzf crio-${CRI_O_VERSION}.tar.gz
     rm crio-${CRI_O_VERSION}.tar.gz
 
+    # Download and install kubectl binary
+    sudo snap install kubectl --classic
+
     # Cleanup
     rm minikube-linux-amd64
 }
@@ -44,6 +47,9 @@ install_minikube_rhel() {
     sudo tar -C / -xzf crio-${CRI_O_VERSION}.tar.gz
     rm crio-${CRI_O_VERSION}.tar.gz
 
+    # Download and install kubectl binary
+    sudo snap install kubectl --classic
+
     # Cleanup
     rm minikube-linux-amd64
 }
@@ -51,7 +57,7 @@ install_minikube_rhel() {
 # Set the CRI-O version
 CRI_O_VERSION="1.21.0"
 
-# Install Minikube and CRI-O based on the Linux distribution
+# Install Minikube, CRI-O, and kubectl based on the Linux distribution
 if [ "$OS" == "ubuntu" ]; then
     install_minikube_ubuntu
 elif [ "$OS" == "rhel" ]; then
@@ -66,3 +72,6 @@ minikube version
 
 # Verify CRI-O installation
 sudo crioctl version
+
+# Verify kubectl installation
+kubectl version --client
