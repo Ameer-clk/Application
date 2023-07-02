@@ -1,0 +1,101 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Resources:
+  ExampleVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 192.168.0.0/16
+
+  ExamplePublicSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref ExampleVPC
+      CidrBlock: 192.168.1.0/24
+      AvailabilityZone: us-east-1a
+
+  ExamplePrivateSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref ExampleVPC
+      CidrBlock: 192.168.2.0/24
+      AvailabilityZone: us-east-1a
+
+  ExamplePublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref ExampleVPC
+
+  ExamplePrivateRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref ExampleVPC
+
+  ExamplePublicRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref ExamplePublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref ExampleInternetGateway
+
+  ExamplePrivateRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref ExamplePrivateRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref ExampleInternetGateway
+
+  ExamplePublicRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref ExamplePublicSubnet
+      RouteTableId: !Ref ExamplePublicRouteTable
+
+  ExamplePrivateRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref ExamplePrivateSubnet
+      RouteTableId: !Ref ExamplePrivateRouteTable
+
+  ExampleInternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: ExampleInternetGateway
+      VpcId: !Ref ExampleVPC
+
+  MyAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: myalarm
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      EvaluationPeriods: 2
+      MetricName: CPUUtilization
+      Namespace: AWS/EC2
+      Period: 120
+      Statistic: Average
+      Threshold: 80
+      AlarmDescription: This metric monitors EC2 CPU utilization
+
+  ExampleSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: example-sg
+      GroupDescription: SG for the server
+      VpcId: !Ref ExampleVPC
+      SecurityGroupIngress:
+        - CidrIp: 0.0.0.0/0
+          IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+      SecurityGroupEgress:
+        - CidrIp: 0.0.0.0/0
+          IpProtocol: "-1"
+          FromPort: 0
+          ToPort: 0
+
+  ExampleEC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-053b0d53c279acc90
+     
