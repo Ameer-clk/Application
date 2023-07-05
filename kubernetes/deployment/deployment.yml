@@ -15,6 +15,7 @@ spec:
       containers:
         - name: webapp
           securityContext.allowPrivilegeEscalation: false
+          securityContext.runAsNonRoot: true
           image: my-webapp:latest
           ports:
             - containerPort: 80
