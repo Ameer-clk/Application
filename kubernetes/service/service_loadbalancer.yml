@@ -10,3 +10,6 @@ spec:
       port: 80
       targetPort: 80
   type: LoadBalancer
+  loadBalancerSourceRanges:
+    - 192.168.0.0/24
+    - 10.0.0.0/16
