@@ -17,6 +17,13 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
             runAsNonRoot: true
+            capabilities:
+              drop:
+                - ALL
+              add:
+                - CAPABILITY_NAME_1
+                - CAPABILITY_NAME_2
           image: my-webapp:latest
           ports:
             - containerPort: 80
+
