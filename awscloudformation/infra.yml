@@ -97,5 +97,6 @@ Resources:
   ExampleEC2Instance:
     Type: AWS::EC2::Instance
     Properties:
+      BlockDeviceMappings.Encrypted: true 
       ImageId: ami-053b0d53c279acc90
      
