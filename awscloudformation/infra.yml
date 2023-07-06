@@ -84,7 +84,7 @@ Resources:
       GroupDescription: SG for the server
       VpcId: !Ref ExampleVPC
       SecurityGroupIngress:
-        - CidrIp: 0.0.0.0/0
+        - CidrIp: 192.16.0.0/24
           IpProtocol: tcp
           FromPort: 80
           ToPort: 80
