@@ -94,12 +94,12 @@ Resources:
           FromPort: 0
           ToPort: 0
 
- ExampleEC2Instance:
-  Type: AWS::EC2::Instance
-  Properties:
-    BlockDeviceMappings:
-      - DeviceName: /dev/xvda
-        Ebs:
-          DeleteOnTermination: true
-          Encrypted: true
-    ImageId: ami-053b0d53c279acc90
+  ExampleEC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      BlockDeviceMappings:
+        - DeviceName: /dev/xvda
+          Ebs:
+            DeleteOnTermination: true
+            Encrypted: true
+      ImageId: ami-053b0d53c279acc90
