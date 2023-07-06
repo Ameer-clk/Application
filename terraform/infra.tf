@@ -1,5 +1,5 @@
 provider "aws" {
-  region     = "us-east-1"
+  region = "us-east-1"
 }
 
 resource "aws_vpc" "example_vpc" {
@@ -7,15 +7,15 @@ resource "aws_vpc" "example_vpc" {
 }
 
 resource "aws_subnet" "example_publicsubnet" {
-  vpc_id                = aws_vpc.example_vpc.id
-  cidr_block            = "192.168.1.0/24"
-  availability_zone     = "us-east-1a"
+  vpc_id            = aws_vpc.example_vpc.id
+  cidr_block        = "192.168.1.0/24"
+  availability_zone = "us-east-1a"
 }
 
 resource "aws_subnet" "example_privatesubnet" {
-  vpc_id                = aws_vpc.example_vpc.id
-  cidr_block            = "192.168.2.0/24"
-  availability_zone     = "us-east-1a"
+  vpc_id            = aws_vpc.example_vpc.id
+  cidr_block        = "192.168.2.0/24"
+  availability_zone = "us-east-1a"
 }
 
 resource "aws_route_table" "example_publicroutetable" {
@@ -39,13 +39,13 @@ resource "aws_route" "example_privatecroute" {
 }
 
 resource "aws_route_table_association" "example_publicassociation" {
-  subnet_id        = aws_subnet.example_publicsubnet.id
-  route_table_id   = aws_route_table.example_publicroutetable.id
+  subnet_id      = aws_subnet.example_publicsubnet.id
+  route_table_id = aws_route_table.example_publicroutetable.id
 }
 
 resource "aws_route_table_association" "example_privatecassociation" {
-  subnet_id        = aws_subnet.example_privatesubnet.id
-  route_table_id   = aws_route_table.example_privateroutetable.id
+  subnet_id      = aws_subnet.example_privatesubnet.id
+  route_table_id = aws_route_table.example_privateroutetable.id
 }
 
 resource "aws_internet_gateway" "example_igw" {
@@ -73,7 +73,7 @@ resource "aws_security_group" "example_sg" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["192.16.0.0/24"]
   }
 
   egress {
@@ -92,4 +92,8 @@ resource "aws_instance" "web" {
   subnet_id                   = aws_subnet.example_privatesubnet.id
   private_ip                  = "192.168.2.10"  # Replace with your desired private IP address
   vpc_security_group_ids      = [aws_security_group.example_sg.id]
+  root_block_device {
+    encrypted = true
+  }
 }
+
