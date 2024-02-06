@@ -1,29 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-webapp
+  name: grafana-1
+  labels:
+    app: grafana-1
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: my-webapp
+      app: grafana-1
   template:
     metadata:
       labels:
-        app: my-webapp
+        app: grafana-1
     spec:
       containers:
-        - name: webapp
-          securityContext:
-            allowPrivilegeEscalation: false
-            runAsNonRoot: true
-            capabilities:
-              drop:
-                - ALL
-              add:
-                - CAPABILITY_NAME_1
-                - CAPABILITY_NAME_2
-          image: my-webapp:latest
-          ports:
-            - containerPort: 80
-
+      - name: grafana
+        image: grafana/grafana
+        ports:
+        - containerPort: 3000
